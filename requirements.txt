@@ -1,4 +1,7 @@
+Coffin==0.3.8
 Django==1.5.2
+Jinja2==2.7.1
+MarkupSafe==0.18
 distribute==0.6.34
 psycopg2==2.5.1
-wsgiref==0.1.2
+selenium==2.35.0

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <title>Cross Country Tracker{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Keeping track of cross country running results">
+    <meta name="keywords" content="">
+    <meta name="author" content="Colin Carroll">
+    <meta charset="utf-8">
+
+    <link href="{{ url_for("static", filename = "css/bootstrap_main.css") }}" rel="stylesheet">
+    <link href="{{ url_for("static", filename = "css/styles.css") }}" rel="stylesheet">
+    {% block css_header %}{% endblock %}
+    <style>
+      body {
+        padding-top: 75px;
+        }
+      @media (max-width: 979px) {
+        body {
+          padding-top: 0px;
+        }
+      }
+      html, body{
+        height: 100%;
+      }
+     </style>
+    <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+
+    {% endblock %}
+  </head>
+
+  <body>
+
+    <header class="navbar navbar-fixed-top" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ url_for("index") }}">Cross Country Tracker</a>
+        </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="navbar-collapse navbar-responsive-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ url_for("teams") }}">Teams</a></li>
+            <li><a href="{{ url_for("meets") }}">Meets</a></li>
+            <li><a href="{{ url_for("courses") }}">Courses</a></li>
+            <li><a href="{{ url_for("predictions") }}">Predictions</a></li>
+            <li><a href="{{ url_for("uploads") }}">Uploads</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </header>
+
+    <div class="container page">
+      <div class="content col-lg-12">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+
+    <hr>
+
+    <footer class="bs-footer">
+        {% block footer %}
+        {% endblock %}
+    </footer>
+
+    </div>
+
+    <script src="{{ url_for("static", filename = "js/jquery.js") }}"></script>
+    <script src="{{ url_for("static", filename = "js/bootstrap.js") }}"></script>
+    {% block js_footer %}
+    {% endblock %}
+  </body>
+</html>
