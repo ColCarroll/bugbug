@@ -22,12 +22,21 @@ class NewVisitorTest(unittest.TestCase):
 
     #Seeing the page title lets him know he's in the right place
     self.assertIn('BugBug', self.browser.title)
-    self.fail("Finish the test!")
+    header_text = self.browser.find_element_by_tag_name('h1').text
+    self.assertIn('Explore', header_text)
 
-    #He clicks a button to upload new results and is taken to the uploads
+    #He clicks a button to upload new results
+    uploadbutton = self.browser.find_element_by_id('upload_button')
+    self.assertEqual(
+        uploadbutton.get_attribute('val'),
+        'Uploads'
+        )
+    #and is taken to the uploads
     #page.  He enters a url pointing to results, and clicks the upload
     #button.  After a series of confirmation screens, this takes him to
     #the parsed results page.
+
+    self.fail("Finish the test!")
 
 if __name__ == '__main__':
   unittest.main()
