@@ -8,6 +8,7 @@ Replace this with more appropriate tests for your application.
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.http import HttpRequest
+from django.template.loader import render_to_string
 
 from homepage.views import homepage
 
@@ -26,8 +27,7 @@ class HomePageTest(TestCase):
     """
     request = HttpRequest()
     response = homepage(request)
-    self.assertTrue(response.content.startswith(b'<html>'))
-    self.assertIn(b'<title>BugBug</title>', response.content)
-    self.assertTrue(response.content.endswith(b'</html>'))
+    expected_html = render_to_string('homepage.html')
+    self.assertEqual(response.content.decode(), expected_html)
 
 
