@@ -2,7 +2,7 @@
 """
 from django.http import HttpResponse
 
-def home_page(request):
+def homepage(request):
   """Home page for teams
   """
   return HttpResponse('<html><title>BugBug Teams</title></html>')

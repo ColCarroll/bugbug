@@ -9,7 +9,7 @@ from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.http import HttpRequest
 
-from homepage.views import home_page
+from homepage.views import homepage
 
 
 class HomePageTest(TestCase):
@@ -19,13 +19,13 @@ class HomePageTest(TestCase):
     """ Tests that home page is found
     """
     found = resolve("/")
-    self.assertEqual(found.func, home_page)
+    self.assertEqual(found.func, homepage)
 
   def test_returns_correct_html(self):
     """Makes sure html is formatted correctly
     """
     request = HttpRequest()
-    response = home_page(request)
+    response = homepage(request)
     self.assertTrue(response.content.startswith(b'<html>'))
     self.assertIn(b'<title>BugBug</title>', response.content)
     self.assertTrue(response.content.endswith(b'</html>'))

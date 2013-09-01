@@ -9,8 +9,8 @@
     <meta name="author" content="Colin Carroll">
     <meta charset="utf-8">
 
-    <link href="{{ url_for("static", filename = "css/bootstrap_main.css") }}" rel="stylesheet">
-    <link href="{{ url_for("static", filename = "css/styles.css") }}" rel="stylesheet">
+    <link href="/static/css/bootstrap_main.css" type="text/css" rel="stylesheet">
+    <link href="/static/css/styles.css" type="text/css" rel="stylesheet">
     {% block css_header %}{% endblock %}
     <style>
       body {
@@ -30,7 +30,7 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <![endif]-->
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+    <link rel="shortcut icon" href="static/ico/favicon.ico">
 
     {% endblock %}
   </head>
@@ -46,17 +46,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url_for("index") }}">Cross Country Tracker</a>
+          <a class="navbar-brand" href="{% url 'homepage.views.homepage' %}">Cross Country Tracker</a>
         </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="navbar-collapse navbar-responsive-collapse" role="navigation">
           <ul class="nav navbar-nav">
-            <li><a href="{{ url_for("teams") }}">Teams</a></li>
-            <li><a href="{{ url_for("meets") }}">Meets</a></li>
-            <li><a href="{{ url_for("courses") }}">Courses</a></li>
-            <li><a href="{{ url_for("predictions") }}">Predictions</a></li>
-            <li><a href="{{ url_for("uploads") }}">Uploads</a></li>
+            <li><a href="{% url 'teams.views.homepage'%}">Teams</a></li>
+            <li><a href="{% url 'homepage.views.homepage' %}">Meets</a></li>
+            <li><a href="{% url 'homepage.views.homepage' %}">Courses</a></li>
+            <li><a href="{% url 'homepage.views.homepage' %}">Predictions</a></li>
+            <li><a href="{% url 'homepage.views.homepage' %}">Uploads</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div>
@@ -78,8 +78,8 @@
 
     </div>
 
-    <script src="{{ url_for("static", filename = "js/jquery.js") }}"></script>
-    <script src="{{ url_for("static", filename = "js/bootstrap.js") }}"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
     {% block js_footer %}
     {% endblock %}
   </body>

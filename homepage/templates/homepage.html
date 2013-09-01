@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %} - Home{% endblock %}
+
+{% block content %}
+<div class="col-lg-6">
+  <img src="static/img/front_banner.jpg" class="img-responsive">
+</div>
+<div class="col-lg-6">
+
+  <h1>Explore</h1>
+
+  <div class="btn-toolbar">
+    <button onclick="javascript:location.href='{% url 'teams.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
+      <img class="img-menu img-responsive" src="static/img/team.jpg">
+      <span class="span-menu">
+        Teams
+      </span>
+    </button>
+    <button onclick="javascript:location.href='{% url 'homepage.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
+      <img class="img-menu img-responsive" src="static/img/meet.jpg">
+      <span class="span-menu">
+        Meets
+      </span>
+    </button>
+    <button onclick="javascript:location.href='{% url 'homepage.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
+      <img class="img-menu img-responsive" src="static/img/course.jpg">
+      <span class="span-menu">
+        Courses
+      </span>
+    </button>
+    <button onclick="javascript:location.href='{% url 'homepage.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
+      <img class="img-menu img-responsive" src="static/img/prediction.jpg">
+      <span class="span-menu">
+        Predictions
+      </span>
+    </button>
+
+    <hr>
+    <h1>Admin</h1>
+
+    <button onclick="javascript:location.href=&quot;{% url 'homepage.views.homepage' %}&quot;" type="button" class="btn btn-default btn-lg btn-block">
+      <img class="img-menu img-responsive" src="static/img/upload.jpg">
+      <span class="span-menu">
+        Upload
+      </span>
+    </button>
+  </div>
+</div>
+{% endblock %}
