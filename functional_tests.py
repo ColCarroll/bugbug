@@ -18,7 +18,7 @@ class NewVisitorTest(unittest.TestCase):
     """Navigate to uploads, enter results
     """
     # Mitchell visits the homepage of a results app
-    self.browser.get('http://localhost:5000')
+    self.browser.get('http://localhost:8000')
 
     #Seeing the page title lets him know he's in the right place
     self.assertIn('BugBug', self.browser.title)

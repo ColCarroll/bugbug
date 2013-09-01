@@ -132,6 +132,11 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'teams',
     'homepage',
+    'meets',
+    'courses',
+    'predictions',
+    'uploads',
+    'runners',
 )
 
 # A sample logging configuration. The only tangible logging

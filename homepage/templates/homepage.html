@@ -16,19 +16,19 @@
         Teams
       </span>
     </button>
-    <button onclick="javascript:location.href='{% url 'homepage.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
+    <button onclick="javascript:location.href='{% url 'meets.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
       <img class="img-menu img-responsive" src="static/img/meet.jpg">
       <span class="span-menu">
         Meets
       </span>
     </button>
-    <button onclick="javascript:location.href='{% url 'homepage.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
+    <button onclick="javascript:location.href='{% url 'courses.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
       <img class="img-menu img-responsive" src="static/img/course.jpg">
       <span class="span-menu">
         Courses
       </span>
     </button>
-    <button onclick="javascript:location.href='{% url 'homepage.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
+    <button onclick="javascript:location.href='{% url 'predictions.views.homepage' %}'" type="button" class="btn btn-default btn-lg btn-block">
       <img class="img-menu img-responsive" src="static/img/prediction.jpg">
       <span class="span-menu">
         Predictions
@@ -38,7 +38,7 @@
     <hr>
     <h1>Admin</h1>
 
-    <button onclick="javascript:location.href=&quot;{% url 'homepage.views.homepage' %}&quot;" type="button" class="btn btn-default btn-lg btn-block">
+    <button id="upload_button" onclick="javascript:location.href=&quot;{% url 'uploads.views.homepage' %}&quot;" type="button" class="btn btn-default btn-lg btn-block">
       <img class="img-menu img-responsive" src="static/img/upload.jpg">
       <span class="span-menu">
         Upload

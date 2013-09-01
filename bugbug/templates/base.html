@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     {% block head %}
-    <title>Cross Country Tracker{% block title %}{% endblock %}</title>
+    <title>BugBug{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Keeping track of cross country running results">
     <meta name="keywords" content="">
@@ -30,7 +30,7 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <![endif]-->
 
-    <link rel="shortcut icon" href="static/ico/favicon.ico">
+      <link rel="shortcut icon" href="/static/ico/favicon.ico">
 
     {% endblock %}
   </head>
@@ -53,10 +53,10 @@
         <div class="navbar-collapse navbar-responsive-collapse" role="navigation">
           <ul class="nav navbar-nav">
             <li><a href="{% url 'teams.views.homepage'%}">Teams</a></li>
-            <li><a href="{% url 'homepage.views.homepage' %}">Meets</a></li>
-            <li><a href="{% url 'homepage.views.homepage' %}">Courses</a></li>
-            <li><a href="{% url 'homepage.views.homepage' %}">Predictions</a></li>
-            <li><a href="{% url 'homepage.views.homepage' %}">Uploads</a></li>
+            <li><a href="{% url 'meets.views.homepage' %}">Meets</a></li>
+            <li><a href="{% url 'courses.views.homepage' %}">Courses</a></li>
+            <li><a href="{% url 'predictions.views.homepage' %}">Predictions</a></li>
+            <li><a href="{% url 'uploads.views.homepage' %}">Uploads</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div>

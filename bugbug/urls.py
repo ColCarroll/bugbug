@@ -10,6 +10,13 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'homepage.views.homepage', name='home'),
     url(r'^teams/', 'teams.views.homepage', name='teams_home'),
+    url(r'^meets/', 'meets.views.homepage', name='meets_home'),
+    url(r'^courses/', 'courses.views.homepage', name='courses_home'),
+    url(r'^predictions/',
+      'predictions.views.homepage',
+      name='predictions_home'),
+    url(r'^uploads/', 'uploads.views.homepage', name='uploads_home'),
+    url(r'^runners/', 'runners.views.homepage', name='runners_home'),
     # url(r'^bugbug/', include('bugbug.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
