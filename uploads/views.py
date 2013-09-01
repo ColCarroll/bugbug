@@ -1,8 +1,8 @@
 """ Create your views here.
 """
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def homepage(request):
   """Home page for teams
   """
-  return HttpResponse('<html><title>BugBug Teams</title></html>')
+  return render(request, 'uploads/homepage.html')
