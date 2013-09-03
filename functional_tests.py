@@ -2,6 +2,7 @@
 """
 import unittest
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 class NewVisitorTest(unittest.TestCase):
   """ Tells story of a new visitor to the site
@@ -27,14 +28,21 @@ class NewVisitorTest(unittest.TestCase):
 
     #He clicks a button to upload new results
     uploadbutton = self.browser.find_element_by_id('upload_button')
+    uploadbutton.click()
+
+    #and is taken to the uploads page
+    self.assertIn("Uploads", self.browser.title)
+    inputbox = self.browser.find_element_by_id("result_url")
     self.assertEqual(
-        uploadbutton.get_attribute('val'),
-        'Uploads'
+        inputbox.get_attribute('placeholder'),
+        'Enter a result url'
         )
-    #and is taken to the uploads
-    #page.  He enters a url pointing to results, and clicks the upload
-    #button.  After a series of confirmation screens, this takes him to
-    #the parsed results page.
+    # He enters a url pointing to results and hits enter
+    inputbox.send_keys("http://www.coolrunning.com/results/12/ma/Nov3_ECACDi_set1.shtml")
+    inputbox.send_keys(Keys.ENTER)
+
+    # This takes him to the parsed results page.
+    self.assertIn("Results", self.browser.title)
 
     self.fail("Finish the test!")
 
