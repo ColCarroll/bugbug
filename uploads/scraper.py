@@ -3,80 +3,13 @@
 import datetime
 import re
 import requests
-from collections import Counter
 from bs4 import BeautifulSoup
 
-ALLOWED_EXTENSIONS = set(["txt"])
-def allowed_file(filename):
-  """Makes sure file is in the allowed list
-  """
-  return (("." in filename) and
-      (filename.rsplit(".",1)[1] in ALLOWED_EXTENSIONS))
-
-def find_all(regex, string):
-  """Returns index of all substrings matching the
-  given regex
-  """
-  return [m.start() for m in re.finditer(regex, string)]
-
-class NumParser:
-  """Helper class to parse time and place fields
-  """
-  def __init__(self):
-    self.time_pattern = re.compile(
-        r"([0-9]{1,2})?(?::)([0-9]{1,2})(.[0-9]{1,2})?")
-    self.place_pattern = re.compile(
-        r"^(\d+)(?:\.)?(?<=$)")
-
-  def has_time(self, string):
-    """Checks whether the given string has a timestamp in it
-    """
-    return any(self.time_pattern.match(field) for
-        field in string.split())
-
-  def return_time(self, string):
-    """Returns largest timestamp from the string
-    """
-    timestamp = datetime.timedelta(seconds = 0)
-    for _, field in self.get_timefields(string):
-      group = field.groups()
-      times = {
-          "minutes": int(group[0] or 0),
-          "seconds": int(group[1]) + float(group[2] or 0)}
-      newtime = datetime.timedelta(**times)
-      if newtime > timestamp:
-        timestamp = newtime
-    return timestamp
-
-  def get_timefields(self, string):
-    """Returns a tuple (index, field) of any time fields
-    in the string.  field is a regex match object
-    """
-    for j, field in enumerate(string.split()):
-      match = self.time_pattern.search(field)
-      if match:
-        yield (j, match)
-
-  def split_on_times(self, string):
-    """Splits a string on time fields.  Returns a list of strings
-    """
-    return re.split("|".join([field[1].string for
-      field in self.get_timefields(string)]), string)
-
-  def has_place(self, string):
-    """Checks whether the given string has a (possible)
-    place at the start
-    """
-    return any(self.place_pattern.match(field) for
-        field in string.split())
-
-  def return_place(self, string):
-    """Returns a digit at the start of a line
-    """
-    for field in string.split():
-      field = self.place_pattern.match(field)
-      if field:
-        return int(field.group(1))
+from teams.models import Team
+from courses.models import Course
+from meets.models import Meet
+from results.models import Result
+from runners.models import Runner
 
 class Scraper:
   """Handles file parsing operations
@@ -84,7 +17,6 @@ class Scraper:
   def __init__(self,
       url = "http://xc.tfrrs.org/results/xc/5347.html"):
 
-    self.num_parser = NumParser()
     self.data = requests.get(url).text
     self.soup = BeautifulSoup(self.data)
     self.results = []
@@ -123,6 +55,16 @@ class Scraper:
           if cols and len(cols) == len(theaders):
             self.results[-1].append({theaders[j]: cols[j].text.strip()
                 for j in range(len(cols))})
+    for result_set in self.results:
+      for result in result_set:
+        result['first_name'], result['last_name'] = (
+            j.strip() for j in result.get("Name").split(",")
+            )
+        time_match = re.match(
+            r"(?P<minutes>\d{0,2}):(?P<seconds>\d{2}.?\d{0,2})",
+            result['time'])
+        result['time'] = (
+            60* float(time_match['minutes']) + float(time_match['seconds']))
 
   def gender_distance(self):
     """ Finds result distances
@@ -131,5 +73,48 @@ class Scraper:
         "a",
         text=re.compile("[Women's|Men's] [0-9]{1,2}k"))
     return [{'gender': re.search(r"(Women|Men)", j.text).group(1),
-      'distance': 1000 * int(re.search(r"(\d+)", j.text).group(1))} for j in distances]
+      'distance': 1000 * int(re.search(r"(\d+)", j.text).group(1))}
+      for j in distances]
+
+  def meet_name(self):
+    """ Finds the meet name
+    """
+    return self.soup.find("h2").text.strip()
+
+  def create(self):
+    """ Reads results and saves to database
+    """
+    date_location = self.datelocation()
+    gender_distance = self.gender_distance()
+    meet_name = self.meet_name()
+    self.read_results()
+    assert len(self.results) == len(gender_distance)
+
+    for j, result_set in enumerate(self.results):
+      course, _ = Course.objects.get_or_create(
+          host = date_location.get('host'),
+          city = date_location.get('city'),
+          state = date_location.get('state'),
+          distance = gender_distance[j]['distance'])
+      meet, _ = Meet.objects.get_or_create(
+          date = date_location.get('date'),
+          gender = gender_distance[j]['gender'],
+          meet_name = meet_name,
+          course = course)
+      for result in result_set:
+        team, _ = Team.objects.get_or_create(
+            name = result('team'))
+        runner, _ = Runner.objects.get_or_create(
+            first_name = result['first_name'],
+            last_name = result['last_name'],
+            class_year = result['class_year'],
+            )
+        runner.teams.add(team)
+        result, _ = Result.objects.get_or_create(
+            meet = meet,
+            runner = runner,
+            time = result['time'],
+            )
+
+
 

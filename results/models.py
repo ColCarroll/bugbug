@@ -6,6 +6,6 @@ class Result(models.Model):
   """ An individual meet result
   """
   meet = models.ForeignKey('meets.Meet')
-  runner = models.ForeignKey('runners.Runner')
   time = models.TimeField()
+  runner = models.ForeignKey('runners.Runner')
 
