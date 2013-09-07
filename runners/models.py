@@ -1,6 +1,5 @@
 """The Runner class
 """
-
 from django.db import models
 
 class Runner(models.Model):

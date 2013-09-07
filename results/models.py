@@ -8,5 +8,4 @@ class Result(models.Model):
   meet = models.ForeignKey('meets.Meet')
   runner = models.ForeignKey('runners.Runner')
   time = models.TimeField()
-  date = models.DateField()
 
