@@ -1,10 +1,10 @@
 """ Functional test suite
 """
-import unittest
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
   """ Tells story of a new visitor to the site
   """
 
@@ -19,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
     """Navigate to uploads, enter results
     """
     # Mitchell visits the homepage of a results app
-    self.browser.get('http://localhost:8000')
+    self.browser.get(self.live_server_url)
 
     #Seeing the page title lets him know he's in the right place
     self.assertIn('BugBug', self.browser.title)
@@ -45,6 +45,3 @@ class NewVisitorTest(unittest.TestCase):
     self.assertIn("Results", self.browser.title)
 
     self.fail("Finish the test!")
-
-if __name__ == '__main__':
-  unittest.main()
