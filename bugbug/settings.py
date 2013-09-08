@@ -137,7 +137,10 @@ INSTALLED_APPS = (
     'predictions',
     'uploads',
     'runners',
+    'results',
     'functional_tests',
+    'libs',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging

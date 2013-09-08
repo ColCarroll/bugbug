@@ -5,6 +5,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+from django.core.management.base import BaseCommand, CommandError
 from teams.models import Team
 from courses.models import Course
 from meets.models import Meet
@@ -44,6 +45,11 @@ class Scraper:
   def read_results(self):
     """ Parses result tables
     """
+    result_year = {'FR-1': 4,
+        "SO-2": 3,
+        "JR-3": 2,
+        "SR-4": 1}
+    year = int(self.datelocation()['date'].year)
     for table in self.soup.find_all("table"):
       headers = table.find_all(class_="tableHeader")
       if headers and headers[0].text.strip() == "Place":
@@ -62,9 +68,11 @@ class Scraper:
             )
         time_match = re.match(
             r"(?P<minutes>\d{0,2}):(?P<seconds>\d{2}.?\d{0,2})",
-            result['time'])
-        result['time'] = (
-            60* float(time_match['minutes']) + float(time_match['seconds']))
+            result['Time'])
+        result['Time'] = (
+            60* float(time_match.group('minutes')) +
+            float(time_match.group('seconds')))
+        result['class_year'] = result_year[result['Year']] + year
 
   def gender_distance(self):
     """ Finds result distances
@@ -102,8 +110,9 @@ class Scraper:
           meet_name = meet_name,
           course = course)
       for result in result_set:
+        print(result)
         team, _ = Team.objects.get_or_create(
-            name = result('team'))
+            name = result['Team'])
         runner, _ = Runner.objects.get_or_create(
             first_name = result['first_name'],
             last_name = result['last_name'],
@@ -113,8 +122,12 @@ class Scraper:
         result, _ = Result.objects.get_or_create(
             meet = meet,
             runner = runner,
-            time = result['time'],
+            time = result['Time'],
             )
 
+class Command(BaseCommand):
+  help = "Scrapes results from web"
 
-
+  def handle(self, *args, **options):
+    scraper = Scraper()
+    scraper.create()
