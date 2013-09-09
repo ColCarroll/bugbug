@@ -63,7 +63,7 @@ class Scraper:
                 for j in range(len(cols))})
     for result_set in self.results:
       for result in result_set:
-        result['first_name'], result['last_name'] = (
+        result['last_name'], result['first_name'] = (
             j.strip() for j in result.get("Name").split(",")
             )
         time_match = re.match(
@@ -110,15 +110,14 @@ class Scraper:
           meet_name = meet_name,
           course = course)
       for result in result_set:
-        print(result)
         team, _ = Team.objects.get_or_create(
             name = result['Team'])
         runner, _ = Runner.objects.get_or_create(
             first_name = result['first_name'],
             last_name = result['last_name'],
             class_year = result['class_year'],
+            team = team,
             )
-        runner.teams.add(team)
         result, _ = Result.objects.get_or_create(
             meet = meet,
             runner = runner,

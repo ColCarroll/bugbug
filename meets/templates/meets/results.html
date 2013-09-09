@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} - Meets{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Place</th>
+      <th>Name</th>
+      <th>Grad Year</th>
+      <th>Team</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  {% for result in results %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ result.runner.first_name }} {{ result.runner.last_name }}</td>
+      <td> {{ result.runner.class_year }} </td>
+      <td> {{ result.runner.team.name }} </td>
+      <td> {{ result.get_time }} </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

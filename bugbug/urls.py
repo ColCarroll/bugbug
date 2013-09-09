@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'homepage.views.homepage', name='home'),
     url(r'^teams/', 'teams.views.homepage', name='teams_home'),
+    url(r'^meets/(\d+)', 'meets.views.results', name='meet_results'),
     url(r'^meets/', 'meets.views.homepage', name='meets_home'),
     url(r'^courses/', 'courses.views.homepage', name='courses_home'),
     url(r'^predictions/',

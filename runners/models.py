@@ -7,5 +7,5 @@ class Runner(models.Model):
   """
   first_name = models.CharField(max_length = 50)
   last_name = models.CharField(max_length = 50)
-  teams = models.ManyToManyField('teams.Team')
+  team = models.ForeignKey('teams.Team')
   class_year = models.IntegerField()
