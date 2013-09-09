@@ -12,11 +12,35 @@ from meets.models import Meet
 from results.models import Result
 from runners.models import Runner
 
+def get_links():
+  """Scrapes results links
+  """
+  more_data = True
+  page = 0
+  page_url = "http://www.tfrrs.org/results_search.html?page={0}&sport=xc&title=1&go=1"
+  links = []
+
+  while more_data:
+    old_len = len(links)
+    more_data = False
+    url = page_url.format(page)
+    data = requests.get(url).text
+    soup = BeautifulSoup(data)
+    page_links = soup.find_all("td", class_ = "meet")
+    for link in page_links:
+      if link.find("a"):
+        if len(links) > old_len + 1:
+          more_data = True
+        links.append(link.find("a")["href"])
+    if more_data:
+      page += 1
+  return links[:-1]
+
 class Scraper:
   """Handles file parsing operations
   """
   def __init__(self,
-      url = "http://xc.tfrrs.org/results/xc/5347.html"):
+      url = "http://www.tfrrs.org/results/xc/5248.html"):
 
     self.data = requests.get(url).text
     self.soup = BeautifulSoup(self.data)
@@ -48,7 +72,12 @@ class Scraper:
     result_year = {'FR-1': 4,
         "SO-2": 3,
         "JR-3": 2,
-        "SR-4": 1}
+        "SR-4": 1,
+        "FR": 4,
+        "SO": 3,
+        "JR": 2,
+        "SR": 1,
+        "": 1, }
     year = int(self.datelocation()['date'].year)
     for table in self.soup.find_all("table"):
       headers = table.find_all(class_="tableHeader")
@@ -66,12 +95,21 @@ class Scraper:
         result['last_name'], result['first_name'] = (
             j.strip() for j in result.get("Name").split(",")
             )
-        time_match = re.match(
-            r"(?P<minutes>\d{0,2}):(?P<seconds>\d{2}.?\d{0,2})",
-            result['Time'])
-        result['Time'] = (
-            60* float(time_match.group('minutes')) +
-            float(time_match.group('seconds')))
+        if len(re.findall(r"[:]", result["Time"])) == 1:
+          time_match = re.match(
+              r"(?P<minutes>\d{0,2}):(?P<seconds>\d{2}.?\d{0,2})",
+              result['Time'])
+          result['Time'] = (
+              60* float(time_match.group('minutes')) +
+              float(time_match.group('seconds')))
+        else:
+          time_match = re.match(
+              r"(?P<hours>\d{0,2}):(?P<minutes>\d{2}):(?P<seconds>\d{2}.?\d{0,2})",
+              result['Time'])
+          result['Time'] = (
+              3600 * float(time_match.group('hours')) +
+              60* float(time_match.group('minutes')) +
+              float(time_match.group('seconds')))
         result['class_year'] = result_year[result['Year']] + year
 
   def gender_distance(self):
@@ -79,9 +117,13 @@ class Scraper:
     """
     distances = self.soup.find_all(
         "a",
-        text=re.compile("[Women's|Men's] [0-9]{1,2}k"))
+        text=re.compile("[Women's|Men's] ([0-9]{1,2}(k| Mile))?"))
+
     return [{'gender': re.search(r"(Women|Men)", j.text).group(1),
-      'distance': 1000 * int(re.search(r"(\d+)", j.text).group(1))}
+      'distance': (
+        (1609 * int("mile" in j.text.lower())) +
+      (1000 * (1 - int("mile" in j.text.lower())))) *
+      int(re.search(r"(\d+)", j.text).group(1))}
       for j in distances]
 
   def meet_name(self):
@@ -96,7 +138,10 @@ class Scraper:
     gender_distance = self.gender_distance()
     meet_name = self.meet_name()
     self.read_results()
-    assert len(self.results) == len(gender_distance)
+    assert len(self.results) == len(gender_distance), \
+        "results have length {0}, found  {1} distances".format(
+            len(self.results),
+            len(gender_distance))
 
     for j, result_set in enumerate(self.results):
       course, _ = Course.objects.get_or_create(
@@ -128,5 +173,11 @@ class Command(BaseCommand):
   help = "Scrapes results from web"
 
   def handle(self, *args, **options):
-    scraper = Scraper()
-    scraper.create()
+    links = get_links()
+    for link in links:
+      print("Scraping {0}".format(link))
+      scraper = Scraper(link)
+      try:
+        scraper.create()
+      except:
+        pass

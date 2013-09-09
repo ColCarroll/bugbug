@@ -3,6 +3,10 @@
 {% block title %} - Meets{% endblock %}
 
 {% block content %}
+<h1> {{ meet.meet_name }} </h1>
+<p> {{ meet.date }} </p>
+<p> {{ meet.course.distance }}m. </p>
+<p> Hosted by {{meet.course.host}}, {{ meet.course.city }}, {{meet.course.state }}</p>
 <table class="table table-striped">
   <thead>
     <tr>

@@ -15,8 +15,8 @@ def results(request, meet_pk):
   """Home page for teams
   """
   meet = Meet.objects.get(pk=meet_pk)
-  results = meet.result_set.all()
+  the_results = meet.result_set.all().order_by('time')
   return render(request,
       'meets/results.html',
       {'meet' : meet,
-      'results': results})
+      'results': the_results})
