@@ -1,5 +1,7 @@
 """Module for scraping results from the internet
 """
+import sys
+import traceback
 import datetime
 import re
 import requests
@@ -34,13 +36,14 @@ def get_links():
         links.append(link.find("a")["href"])
     if more_data:
       page += 1
+    print("{0} links found".format(len(links)))
   return links[:-1]
 
 class Scraper:
   """Handles file parsing operations
   """
   def __init__(self,
-      url = "http://www.tfrrs.org/results/xc/5248.html"):
+      url = "http://www.tfrrs.org/results/xc/5386.html"):
 
     self.data = requests.get(url).text
     self.soup = BeautifulSoup(self.data)
@@ -115,16 +118,28 @@ class Scraper:
   def gender_distance(self):
     """ Finds result distances
     """
+    gender_distance = []
     distances = self.soup.find_all(
         "a",
-        text=re.compile("[Women's|Men's] ([0-9]{1,2}(k| Mile))?"))
+        text=re.compile("[Women's|Men's] ([0-9]{1,2}(k| Mile))"))
 
-    return [{'gender': re.search(r"(Women|Men)", j.text).group(1),
-      'distance': (
-        (1609 * int("mile" in j.text.lower())) +
-      (1000 * (1 - int("mile" in j.text.lower())))) *
-      int(re.search(r"(\d+)", j.text).group(1))}
-      for j in distances]
+    for j in distances:
+      if re.search(r"(Men|Male)", j.text):
+        gender = "Men"
+      elif re.search(r"(Women|Female)", j.text):
+        gender = "Women"
+      else:
+        gender = "Missing"
+      units = int(re.search(r"(\d+)", j.text).group(1))
+      if units <= 1:
+        units = 0
+      if "mi" in j.text.lower():
+        distance = 1609 * units
+      elif "k" in j.text.lower():
+        distance = 1000 * units
+      gender_distance.append({"distance": distance, "gender": gender})
+    return gender_distance
+
 
   def meet_name(self):
     """ Finds the meet name
@@ -179,5 +194,7 @@ class Command(BaseCommand):
       scraper = Scraper(link)
       try:
         scraper.create()
-      except:
-        pass
+      except BaseException as e:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        traceback.print_exception(*sys.exc_info(), limit=2)
+
