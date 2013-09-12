@@ -43,7 +43,7 @@ class Scraper:
   """Handles file parsing operations
   """
   def __init__(self,
-      url = "http://www.tfrrs.org/results/xc/5386.html"):
+      url = "http://www.tfrrs.org/results/xc/5403.html"):
 
     self.data = requests.get(url).text
     self.soup = BeautifulSoup(self.data)
@@ -80,6 +80,10 @@ class Scraper:
         "SO": 3,
         "JR": 2,
         "SR": 1,
+        "Freshman": 4,
+        "Sophomore": 3,
+        "Junior": 2,
+        "Senior": 1,
         "": 1, }
     year = int(self.datelocation()['date'].year)
     for table in self.soup.find_all("table"):
@@ -113,15 +117,15 @@ class Scraper:
               3600 * float(time_match.group('hours')) +
               60* float(time_match.group('minutes')) +
               float(time_match.group('seconds')))
-        result['class_year'] = result_year[result['Year']] + year
+        result['class_year'] = result_year.get(result['Year'],1) + year
 
   def gender_distance(self):
     """ Finds result distances
     """
     gender_distance = []
     distances = self.soup.find_all(
-        "a",
-        text=re.compile("[Women's|Men's] ([0-9]{1,2}(k| Mile))"))
+        "div",
+        style = "margin-left: 10px; color: #000; font-weight: bold;")
 
     for j in distances:
       if re.search(r"(Men|Male)", j.text):
@@ -129,14 +133,20 @@ class Scraper:
       elif re.search(r"(Women|Female)", j.text):
         gender = "Women"
       else:
-        gender = "Missing"
-      units = int(re.search(r"(\d+)", j.text).group(1))
+        gender = "Null"
+      units = re.search(r"\((\d+)", j.text)
+      if not units:
+        units = 0
+      else:
+        units = int(units.group(1))
       if units <= 1:
         units = 0
       if "mi" in j.text.lower():
         distance = 1609 * units
       elif "k" in j.text.lower():
         distance = 1000 * units
+      else:
+        distance = 0
       gender_distance.append({"distance": distance, "gender": gender})
     return gender_distance
 
