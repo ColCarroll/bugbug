@@ -15,8 +15,11 @@ def results(request, course_pk):
   """Home page for a course
   """
   course = Course.objects.get(pk=course_pk)
-  the_meets = course.meet_set.all().order_by('date')
+  courses = Course.objects.filter(host = course.host,
+      city = course.city,
+      state = course.state)
   return render(request,
       'courses/results.html',
       {'course' : course,
-      'meets': the_meets})
+        'courses' : courses,
+        })
