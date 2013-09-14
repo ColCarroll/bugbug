@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %} - Teams{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Runners</th>
+    </tr>
+  </thead>
+  {% for team in teams %}
+  <tr>
+    <td> <a href="{% url 'teams.views.roster' team.pk %}">{{ team.name | safe }}</a></td>
+    <td> {{ team.runner_set.all | length }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

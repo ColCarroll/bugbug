@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} - Runners - {{ runner.first_name | safe }} {{ runner.last_name | safe }} {% endblock %}
+
+{% block content %}
+<h1> {{ runner.first_name }} {{ runner.last_name }} </h1>
+<h3> {{ runner.team.name }} {{ runner.class_year }} </h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Meet</th>
+      <th>Distance</th>
+      <th>Time</th>
+  {% for result in results %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>
+        <a href="{% url 'meets.views.results' result.meet.pk %}">
+          {{ result.meet.meet_name }}
+        </a>
+      </td>
+      <td> {{ result.meet.course.distance }} </td>
+      <td> {{ result.get_time }} </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

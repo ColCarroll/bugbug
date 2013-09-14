@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} - Teams - {{ team.name | safe }}{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Class Year</th>
+      <th>Races</th>
+    </tr>
+  </thead>
+  {% for runner in runners %}
+  <tr>
+    <td> 
+      <a href="{% url 'runners.views.results' runner.pk %}">
+        {{runner.first_name }} {{runner.last_name }}
+      </a>
+    </td>
+    <td> {{ runner.class_year | safe }} </td>
+    <td> {{ runner.result_set.all | length }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -20,9 +20,17 @@
   {% for result in results %}
     <tr>
       <td>{{ forloop.counter }}</td>
-      <td>{{ result.runner.first_name }} {{ result.runner.last_name }}</td>
-      <td> {{ result.runner.class_year }} </td>
-      <td> {{ result.runner.team.name }} </td>
+      <td>
+        <a href="{% url 'runners.views.results' result.runner.pk %}">
+          {{ result.runner.first_name }} {{ result.runner.last_name }}
+        </a>
+      </td>
+      <td>{{ result.runner.class_year }}</td>
+      <td>
+        <a href="{% url 'teams.views.roster' result.runner.team.pk %}">
+          {{ result.runner.team.name }}
+        </a>
+      </td>
       <td> {{ result.get_time }} </td>
     </tr>
   {% endfor %}

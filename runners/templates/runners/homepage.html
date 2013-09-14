@@ -16,16 +16,12 @@
   </thead>
   {% for meet in meets %}
   <tr>
-    <td> 
-      <a href="{% url 'meets.views.results' meet.pk %}">
-        {{ meet.meet_name }}
-      </a>
-    </td>
-    <td> {{ meet.gender }}</td>
-    <td> {{ meet.course.distance }}m.</td>
+    <td> <a href="{% url 'meets.views.results' meet.pk %}">{{ meet.meet_name | safe }}</a></td>
+    <td> {{ meet.gender | safe }}</td>
+    <td> {{ meet.course.distance | safe }}m.</td>
     <td> {{ meet.date | safe }}</td>
-    <td> {{ meet.course.host }}</td>
-    <td> {{ meet.course.city }}, {{meet.course.state }}</td>
+    <td> {{ meet.course.host | safe }}</td>
+    <td> {{ meet.course.city | safe }}, {{meet.course.state | safe}}</td>
   </tr>
   {% endfor %}
 </table>

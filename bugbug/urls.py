@@ -9,6 +9,7 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'homepage.views.homepage', name='home'),
+    url(r'^teams/(\d+)', 'teams.views.roster', name='team_roster'),
     url(r'^teams/', 'teams.views.homepage', name='teams_home'),
     url(r'^meets/(\d+)', 'meets.views.results', name='meet_results'),
     url(r'^meets/', 'meets.views.homepage', name='meets_home'),
@@ -17,7 +18,7 @@ urlpatterns = patterns('',
       'predictions.views.homepage',
       name='predictions_home'),
     url(r'^uploads/', 'uploads.views.homepage', name='uploads_home'),
-    url(r'^runners/', 'runners.views.homepage', name='runners_home'),
+    url(r'^runners/(\d+)', 'runners.views.results', name='runners_results'),
     # url(r'^bugbug/', include('bugbug.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
