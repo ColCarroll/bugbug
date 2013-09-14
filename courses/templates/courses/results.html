@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %} - Courses- {{ course.host }}{% endblock %}
+
+{% block content %}
+<h1> {{ course.host }} </h1>
+<h3> {{ course.city }}, {{ course.state }}</h3>
+<h3> {{ course.distance }}m. </h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Meet</th>
+      <th>Gender</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  {% for meet in meets %}
+    <tr>
+      <td>
+        <a href="{% url 'meets.views.results' meet.pk %}">
+          {{ meet.meet_name }}
+        </a>
+      </td>
+      <td>{{ meet.gender }}</td>
+      <td> {{ meet.date }} </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
