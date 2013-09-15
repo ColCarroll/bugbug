@@ -20,7 +20,10 @@ def roster(request, team_pk):
   runners = team.runner_set.all()
   runners = sorted(runners,
       key = lambda j:(j.result_set.count(), j.class_year), reverse = True)
+  men = (j for j in runners if j.gender == "Men")
+  women = (j for j in runners if j.gender == "Women")
   return render(request,
       'teams/roster.html',
       {'team': team,
-        'runners': runners})
+        'men' : men,
+        'women': women})

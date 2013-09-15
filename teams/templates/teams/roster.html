@@ -3,24 +3,81 @@
 {% block title %} - Teams - {{ team.name | safe }}{% endblock %}
 
 {% block content %}
-<table class="table table-striped">
-  <thead>
+
+<div class="col-lg-12">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Distance</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    {% for meet in team.meets %}
     <tr>
-      <th>Name</th>
-      <th>Class Year</th>
-      <th>Races</th>
+      <td> 
+        <a href="{% url 'meets.views.results' meet.pk %}">
+          {{ meet.meet_name }}
+        </a>
+      </td>
+      <td> {{ meet.gender }} </td>
+      <td> {{ meet.course.distance }}m. </td>
+      <td> {{ meet.date }}</td>
     </tr>
-  </thead>
-  {% for runner in runners %}
-  <tr>
-    <td> 
-      <a href="{% url 'runners.views.results' runner.pk %}">
-        {{runner.first_name }} {{runner.last_name }}
-      </a>
-    </td>
-    <td> {{ runner.class_year | safe }} </td>
-    <td> {{ runner.result_set.all | length }}</td>
-  </tr>
-  {% endfor %}
-</table>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="col-lg-12">
+  <div class="col-lg-6">
+    <h3>Women</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Class Year</th>
+          <th>Races</th>
+        </tr>
+      </thead>
+      {% for runner in women %}
+      <tr>
+        <td> 
+          <a href="{% url 'runners.views.results' runner.pk %}">
+            {{runner.first_name }} {{runner.last_name }}
+          </a>
+        </td>
+        <td> {{ runner.class_year }} </td>
+        <td> {{ runner.result_set.all | length }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+
+  <div class = "col-lg-6">
+    <h3>Men</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Class Year</th>
+          <th>Races</th>
+        </tr>
+      </thead>
+      {% for runner in men %}
+      <tr>
+        <td> 
+          <a href="{% url 'runners.views.results' runner.pk %}">
+            {{runner.first_name }} {{runner.last_name }}
+          </a>
+        </td>
+        <td> {{ runner.class_year }} </td>
+        <td> {{ runner.result_set.all | length }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
 {% endblock %}
