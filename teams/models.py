@@ -12,9 +12,10 @@ class Team(models.Model):
     """Returns a list of meets the teams' runners have
     participated in
     """
-    return set(j.meet for
+    return sorted(list(set(j.meet for
         j in sum([list(j.result_set.all()) for
-          j in self.runner_set.all()],[]))
+          j in self.runner_set.all()],[]))),
+        key = lambda j:j.date, reverse = True)
 
 class TeamAlias(models.Model):
   """ Various spellings of team names
