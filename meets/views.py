@@ -2,11 +2,20 @@
 """
 from django.shortcuts import render
 from meets.models import Meet
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def homepage(request):
   """Home page for teams
   """
-  meets = Meet.objects.all()
+  meets = Meet.objects.all().order_by('-date')
+  paginator = Paginator(meets, 50)
+  page = request.GET.get('page')
+  try:
+    meets = paginator.page(page)
+  except PageNotAnInteger:
+    meets = paginator.page(1)
+  except EmptyPage:
+    meets = paginator.page(paginator.num_pages)
   return render(request,
       'meets/homepage.html',
       {'meets' : meets})

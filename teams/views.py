@@ -2,17 +2,26 @@
 """
 from django.shortcuts import render
 from teams.models import Team
+from django.db.models import Count
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def homepage(request):
   """Home page for teams
   """
-  teams = Team.objects.all()
-  teams = sorted(teams,
-      key = lambda j:j.runner_set.count(), reverse = True)
+  teams = Team.objects.all()\
+      .annotate(runners =Count('runner'))\
+      .order_by('-runners')
+  paginator = Paginator(teams, 50)
+  page = request.GET.get('page')
+  try:
+    teams = paginator.page(page)
+  except PageNotAnInteger:
+    teams = paginator.page(1)
+  except EmptyPage:
+    teams = paginator.page(paginator.num_pages)
   return render(request,
       'teams/homepage.html',
       {'teams' : teams})
-
 def roster(request, team_pk):
   """ Displays information on a single team
   """

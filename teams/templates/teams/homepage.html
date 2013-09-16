@@ -17,4 +17,19 @@
   </tr>
   {% endfor %}
 </table>
+<div class="pagination">
+    <span class="step-links">
+        {% if teams.has_previous %}
+            <a href="?page={{ teams.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ teams.number }} of {{ teams.paginator.num_pages }}.
+        </span>
+
+        {% if teams.has_next %}
+            <a href="?page={{ teams.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

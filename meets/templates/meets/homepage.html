@@ -24,9 +24,28 @@
     <td> {{ meet.gender }}</td>
     <td> {{ meet.course.distance }}m.</td>
     <td> {{ meet.date | safe }}</td>
-    <td> {{ meet.course.host }}</td>
+    <td> 
+      <a href="{% url 'courses.views.results' meet.course.pk %}">
+        {{ meet.course.host }}
+      </a>
+    </td>
     <td> {{ meet.course.city }}, {{meet.course.state }}</td>
   </tr>
   {% endfor %}
 </table>
+<div class="pagination">
+    <span class="step-links">
+        {% if meets.has_previous %}
+            <a href="?page={{ meets.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ meets.number }} of {{ meets.paginator.num_pages }}.
+        </span>
+
+        {% if meets.has_next %}
+            <a href="?page={{ meets.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

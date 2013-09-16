@@ -59,9 +59,9 @@ class Scraper:
     locstring = re.search(r"Location: (.*)", date_location)
     if locstring:
       locstring = locstring.group(1).split("-")
-      host = locstring[0].strip()
-      city = locstring[1].split(",")[0].strip()
-      state = locstring[1].split(",")[1].strip()
+      host = "-".join(locstring[:-1]).strip()
+      city = locstring[-1].split(",")[0].strip()
+      state = locstring[-1].split(",")[1].strip()
     return {
         "date": date,
         "host": host,
