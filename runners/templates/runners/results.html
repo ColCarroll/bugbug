@@ -10,6 +10,7 @@
     <tr>
       <th></th>
       <th>Meet</th>
+      <th>Date</th>
       <th>Course</th>
       <th>Distance</th>
       <th>Time</th>
@@ -21,6 +22,7 @@
           {{ result.meet.meet_name }}
         </a>
       </td>
+      <td>{{ result.meet.date }}</td>
       <td>
         <a href="{% url 'courses.views.results' result.meet.course.pk %}">
           {{ result.meet.course.host }},  {{ result.meet.course.city }}, {{ result.meet.course.state }}
