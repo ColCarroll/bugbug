@@ -8,7 +8,7 @@ def results(request, runner_pk):
   """Home page for teams
   """
   runner = Runner.objects.get(pk=runner_pk)
-  the_results = runner.result_set.all().order_by('time')
+  the_results = runner.result_set.all().order_by('-meet__date')
   return render(request,
       'runners/results.html',
       {'runner' : runner,
