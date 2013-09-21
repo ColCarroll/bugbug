@@ -10,6 +10,12 @@
   <h1>Explore</h1>
 
   <div class="btn-toolbar">
+    <button id="runner_button" onclick="javascript:location.href=&quot;{% url 'runners.views.search' %}&quot;" type="button" class="btn btn-default btn-lg btn-block">
+      <img class="img-menu img-responsive" src="static/img/runner.jpg">
+      <span class="span-menu">
+        Runners
+      </span>
+    </button>
     <button onclick="javascript:location.href=&quot;{% url 'teams.views.homepage' %}&quot;" type="button" class="btn btn-default btn-lg btn-block">
       <img class="img-menu img-responsive" src="static/img/team.jpg">
       <span class="span-menu">
@@ -35,15 +41,6 @@
       </span>
     </button>
 
-    <hr>
-    <h1>Admin</h1>
-
-    <button id="upload_button" onclick="javascript:location.href=&quot;{% url 'uploads.views.homepage' %}&quot;" type="button" class="btn btn-default btn-lg btn-block">
-      <img class="img-menu img-responsive" src="static/img/upload.jpg">
-      <span class="span-menu">
-        Upload
-      </span>
-    </button>
   </div>
 </div>
 {% endblock %}

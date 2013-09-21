@@ -18,9 +18,9 @@ urlpatterns = patterns('',
     url(r'^predictions/',
       'predictions.views.homepage',
       name='predictions_home'),
-    url(r'^uploads/', 'uploads.views.homepage', name='uploads_home'),
     url(r'^runners/(\d+)', 'runners.views.results', name='runners_results'),
-    url(r'^search/', include('haystack.urls')),
+    url(r'^runners/search/', 'runners.views.search', name='runner_search'),
+    url(r'^runners/search/',include('haystack.urls'))
     # url(r'^bugbug/', include('bugbug.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

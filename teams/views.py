@@ -22,6 +22,7 @@ def homepage(request):
   return render(request,
       'teams/homepage.html',
       {'teams' : teams})
+
 def roster(request, team_pk):
   """ Displays information on a single team
   """

@@ -1,6 +1,7 @@
 """ Runner views
 """
 from django.shortcuts import render
+from haystack.views import SearchView
 from runners.models import Runner
 
 def results(request, runner_pk):
@@ -12,3 +13,8 @@ def results(request, runner_pk):
       'runners/results.html',
       {'runner' : runner,
       'results': the_results})
+
+def search(request):
+  """Runner search
+  """
+  return SearchView(template = 'search/search.html')(request)
