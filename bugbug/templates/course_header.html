@@ -1,0 +1,10 @@
+{% if course.men_record %}
+    <p>Men's Record:</p>
+    {%  include 'course_records.html' with records=course.men_record %}
+    <p>Men's Average: {{ course.men_average }}</p>
+{% endif %}
+{% if course.women_record %}
+    <p>Women's Record:</p>
+    {%  include 'course_records.html' with records=course.women_record %}
+    <p>Women's Average: {{ course.women_average }}</p>
+{% endif %}

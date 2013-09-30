@@ -8,6 +8,10 @@
 <p> {{ meet.course.distance }}m. </p>
 <p> Hosted by <a href="{% url 'courses.views.results' meet.course.pk %}">
   {{meet.course.host}}</a>, {{ meet.course.city }}, {{meet.course.state }}</p>
+    <br>
+    <p>
+    {% include 'course_header.html' with course=meet.course %}
+    </p>
 <table class="table table-striped">
   <thead>
     <tr>
