@@ -1,0 +1,8 @@
+{% for record in records %}
+    <p><a href="{% url 'runners.views.results' record.runner.pk %}">{{ record.runner.first_name }}
+        {{ record.runner.last_name }}</a>,
+        <a href="{% url 'teams.views.roster' record.runner.team.pk %}">{{ record.runner.team.name }}</a>,
+        {{ record.get_time }},
+        <a href="{% url 'meets.views.results' record.meet.pk %}">{{ record.meet.meet_name }}</a>,
+        {{ record.meet.date }}</p>
+{% endfor %}

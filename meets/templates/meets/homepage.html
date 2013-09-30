@@ -33,19 +33,5 @@
   </tr>
   {% endfor %}
 </table>
-<div class="pagination">
-    <span class="step-links">
-        {% if meets.has_previous %}
-            <a href="?page={{ meets.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ meets.number }} of {{ meets.paginator.num_pages }}.
-        </span>
-
-        {% if meets.has_next %}
-            <a href="?page={{ meets.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
+    {%  include 'page_navigate.html' with objects=meets %}
 {% endblock %}

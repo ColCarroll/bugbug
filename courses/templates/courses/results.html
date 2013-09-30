@@ -7,6 +7,20 @@
 <h3> {{ course.city }}, {{ course.state }}</h3>
 {% for course in courses %}
   <h3> {{ course.distance }}m. </h3>
+    {% if course.men_record %}
+    <p>Men's Record:</p>
+        {%  include 'course_records.html' with records=course.men_record %}
+    {% endif %}
+    {% if course.women_record %}
+        <p>Women's Record:</p>
+        {%  include 'course_records.html' with records=course.women_record %}
+    {% endif %}
+    {% if course.men_average %}
+    <h4>Men's Average: {{ course.men_average }}</h4>
+    {% endif %}
+    {% if course.women_average %}
+    <h4>Women's Average: {{ course.women_average }}</h4>
+    {% endif %}
 
   <table class="table table-striped">
     <thead>
@@ -14,8 +28,8 @@
         <th>Meet</th>
         <th>Gender</th>
         <th>Date</th>
-      </tr>
-    </thead>
+  </tr>
+</thead>
     {% for meet in course.meet_set.all %}
       <tr>
         <td>

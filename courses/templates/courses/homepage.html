@@ -9,6 +9,8 @@
       <th>Name</th>
       <th>Location</th>
       <th>Distance</th>
+      <th>Men's Average</th>
+      <th>Women's Average</th>
       <th>Number of Meets</th>
     </tr>
   </thead>
@@ -21,8 +23,11 @@
     </td>
     <td>{{ course.city }}, {{ course.state }}</td>
     <td>{{ course.distance }}</td>
+    <td>{{ course.men_average }}</td>
+    <td>{{ course.women_average }}</td>
     <td>{{ course.meet_set.all | length }} </td>
   </tr>
   {% endfor %}
 </table>
+    {%  include 'page_navigate.html' with objects=courses %}
 {% endblock %}

@@ -17,6 +17,13 @@ class Team(models.Model):
           j in self.runner_set.all()],[]))),
         key = lambda j:j.date, reverse = True)
 
+  @property
+  def url(self):
+    """
+    A link to the team's home page
+    """
+    return "<a href=\"{% url 'teams.views.roster' self.pk %}\">{0:}</a>".format(self.name)
+
 class TeamAlias(models.Model):
   """ Various spellings of team names
   """
