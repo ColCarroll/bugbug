@@ -1,1 +1,1 @@
-web: gunicorn bugbug.wsgi collectstatic
+web: ./manage.py collectstatic --noinput; gunicorn bugbug.wsgi
