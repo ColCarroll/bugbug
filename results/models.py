@@ -4,6 +4,13 @@ from django.db import models
 from django.db.models import Count
 
 
+class Url(models.Model):
+  """
+  Keep track of urls that have been scraped
+  """
+  url = models.URLField()
+
+
 class Result(models.Model):
   """ An individual meet result
   """

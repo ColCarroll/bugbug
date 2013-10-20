@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 def homepage(request):
   """Home page for teams
   """
-  meets = Meet.objects.all().order_by('-date')
+  meets = Meet.objects.all().order_by('-date', 'meet_name')
   paginator = Paginator(meets, 50)
   page = request.GET.get('page')
   try:
