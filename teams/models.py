@@ -2,10 +2,17 @@
 """
 from django.db import models
 
+
 class Team(models.Model):
   """ Data on an individual team
   """
-  name = models.CharField(max_length = 100)
+  name = models.CharField(max_length=100)
+
+  def __repr__(self):
+    return self.name
+
+  def __str__(self):
+    return self.name
 
   @property
   def meets(self):
@@ -13,20 +20,21 @@ class Team(models.Model):
     participated in
     """
     return sorted(list(set(j.meet for
-        j in sum([list(j.result_set.all()) for
-          j in self.runner_set.all()],[]))),
-        key = lambda j:j.date, reverse = True)
+                           j in sum([list(j.result_set.all()) for
+                                     j in self.runner_set.all()], []))),
+                  key=lambda j: j.date, reverse=True)
 
   @property
   def url(self):
     """
     A link to the team's home page
     """
-    return "<a href=\"{% url 'teams.views.roster' self.pk %}\">{0:}</a>".format(self.name)
+    return "<a href=\"{% url 'teams.views.roster' self.pk %}\">{0:}</a>".format(
+        self.name)
+
 
 class TeamAlias(models.Model):
   """ Various spellings of team names
   """
-  alias = models.CharField(max_length = 100)
+  alias = models.CharField(max_length=100)
   name = models.ForeignKey(Team)
-

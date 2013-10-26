@@ -12,6 +12,12 @@ class Course(models.Model):
   state = models.CharField(max_length=150)
   distance = models.CharField(max_length=150)
 
+  def __repr__(self):
+    return "{0.host} in {0.city}, {0.state}".format(self)
+
+  def __str__(self):
+    return self.__repr__()
+
   def average_time(self, gender):
     """Returns the average time on the course
     """
