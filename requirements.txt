@@ -1,8 +1,10 @@
+pylev
 Django==1.5.2
 Jinja2==2.7.1
 MarkupSafe==0.18
 South==0.8.2
 beautifulsoup4==4.3.1
+distribute==0.7.3
 dj-database-url==0.2.2
 django-haystack==2.1.0
 gunicorn==18.0
